@@ -1,4 +1,5 @@
 import { broadcastLatest } from "./p2p";
+import CryptoJS from 'crypto-js';
 
 class Block {
     public index: number;
@@ -16,7 +17,7 @@ class Block {
     }
 }
 
-const firstBlock: Block = new Block(0, '0', null, 0, 'First Block');
+const firstBlock: Block = new Block(1, '0', null, 0, 'First Block');
 
 let blockchain: Block[] = [firstBlock];
 
@@ -41,12 +42,12 @@ const isStructureValid = (block: Block): boolean => {
 }
 
 const addBlock = (newBlock: Block): void => {
-    isBlockValid(newBlock, getLatestBlock()) && blockchain.push(newBlock);
+    if (isBlockValid(newBlock, getLatestBlock())) blockchain.push(newBlock);
 }
 
 const createBlocks = (data: string): Block => {
     const lastBlock: Block = getLatestBlock();
-    const newIndex: number = ++lastBlock.index;
+    const newIndex: number = lastBlock.index + 1;
     const newTimestamp: number = new Date().getTime() / 1000;
     const newHash: string = createHash(newIndex, lastBlock.hash, newTimestamp, data);
     const newBlock: Block = new Block(newIndex, newHash, lastBlock.hash, newTimestamp, data);
@@ -63,7 +64,7 @@ const isBlockValid = (newBlock: Block, lastBlock: Block): boolean => {
         return false;
     };
 
-    if (++lastBlock.index !== newBlock.index) {
+    if (lastBlock.index + 1 !== newBlock.index) {
         console.error('Invalid Index !');
         return false;
     } else if (lastBlock.hash !== newBlock.previousHash) {
@@ -87,7 +88,7 @@ const isChainValid = (candidateChain: Block[]): boolean => {
     }
 
     for (let i = 1; i < candidateChain.length; i++) {
-        if (!isBlockValid(candidateChain[i], candidateChain[--i])) {
+        if (!isBlockValid(candidateChain[i], candidateChain[i - 1])) {
             return false;
         }
     }

@@ -40,7 +40,7 @@ const handleBlockchainResp = (receivedBlocks: Block[]): void => {
         return;
     }
 
-    const latestBlockReceived: Block = receivedBlocks[--receivedBlocks.length];
+    const latestBlockReceived: Block = receivedBlocks[receivedBlocks.length - 1];
     if (!isStructureValid(latestBlockReceived)) {
         console.error('Structure of the latest block is not valid.');
         return;
