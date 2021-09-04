@@ -1,0 +1,1 @@
+`npx ts-node mine.ts "Data here"` to create a new block inside the blockchain.
