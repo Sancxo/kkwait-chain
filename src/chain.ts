@@ -61,6 +61,11 @@ const createBlocks = (data: string): Block => {
 const isBlockValid = (newBlock: Block, lastBlock: Block): boolean => {
     if (!isStructureValid(newBlock)) {
         console.error('Invalid Block Structure !')
+        console.info('Index: ', typeof(newBlock.index));
+        console.info('Hash: ', typeof(newBlock.hash));
+        console.info('Previous Hash: ', typeof(newBlock.previousHash));
+        console.info('Timestamp: ', typeof(newBlock.timestamp));
+        console.info('Data: ', typeof(newBlock.data));
         return false;
     };
 

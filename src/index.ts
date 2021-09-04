@@ -32,3 +32,5 @@ const initHTTPServer = (port: number): void => {
 
 initHTTPServer(httpPort);
 initP2PServer(p2pPort);
+
+export { httpPort };
